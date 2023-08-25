@@ -1,6 +1,4 @@
-
-from selene import have, be, browser, command
-import tests
+from selene import have, browser
 from tests_demo import resource
 
 

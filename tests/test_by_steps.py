@@ -1,13 +1,13 @@
-from selene import browser, be, have, command
-
 from tests_demo.pages.registration_pages import RegistrationPage
 
 
 def test_for_registration_form_tests_demo(browser_open):
     registration_page = RegistrationPage()
 
+    # Browser open
     registration_page.open()
 
+    # First and second name
     registration_page.fill_first_name('Alexandra')
     registration_page.fill_last_name('Borland')
 
@@ -46,21 +46,6 @@ def test_for_registration_form_tests_demo(browser_open):
 
     # Checking
     registration_page.should_have_text('Thanks for submitting the form')
-
-    # registration_page.should_have_registrated_user_with2.should(
-    # have.exact_texts(
-    # 'Alexandra',
-    # 'Borland',
-    # 'borland3711@gmail.com',
-    # 'Female',
-    # '9992131512',
-    # '15 June,1998',
-    # 'Math',
-    # 'Music',
-    # 'img.png',
-    # 'Haryana Karnal')
-    # )
-
     registration_page.should_have_registrated_user_with(
             'Alexandra Borland',
             'borland3711@gmail.com',
