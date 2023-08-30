@@ -9,9 +9,7 @@ class User:
     email: str
     sex: str
     mobile_number: str
-    birth_day: int
-    birth_month: int
-    birth_year: int
+    date_of_birth: datetime.date
     subject: str
     hobbies: str
     picture: str
@@ -19,8 +17,6 @@ class User:
     state: str
     city: str
 
-    def full_date_of_birth(self):
-        return datetime.datetime(self.birth_year, self.birth_month, self.birth_day)
 
 
 Alexandra = User(
@@ -29,9 +25,7 @@ Alexandra = User(
     email='borland3711@gmail.com',
     sex='Female',
     mobile_number='9992131512',
-    birth_day=15,
-    birth_month=6,
-    birth_year=1998,
+    date_of_birth=datetime.date(year=1998, month=6, day=15),
     subject='Maths',
     hobbies='Music',
     picture='img.png',
@@ -39,5 +33,3 @@ Alexandra = User(
     state='Haryana',
     city='Karnal',
 )
-
-

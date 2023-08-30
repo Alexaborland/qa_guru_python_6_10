@@ -1,7 +1,6 @@
-from selene import have, browser, by, be, command
+from selene import have, browser, be
 from tests_demo import resourсe
-from data.users import User
-import calendar
+from tests_demo.users.users import User
 
 
 class RegistrationPage:
@@ -12,16 +11,10 @@ class RegistrationPage:
         self.email = browser.element('#userEmail')
         self.sex = browser.all('.custom-radio')
         self.mobile_number = browser.element('#userNumber')
-        self.date_of_birth = browser.element('#dateOfBirthInput')
-        self.birth_day = browser.element('.react-datepicker__month')
-        self.birth_month = browser.element('.react-datepicker__month-select')
-        self.birth_year = browser.element('.react-datepicker__year-select')
         self.subject = browser.element('#subjectsInput')
-        self.hobbies = browser.element('.custom-control')
+        self.hobbies = browser.all('#hobbiesWrapper label')
         self.picture = browser.element('#uploadPicture')
         self.address = browser.element('#currentAddress')
-        self.state = browser.element('#state')
-        self.city = browser.element('#city')
         self.submit_button = browser.element('#submit')
 
     def open(self):
@@ -33,17 +26,30 @@ class RegistrationPage:
         self.email.type(user.email)
         self.sex.element_by(have.text(user.sex)).click()
         self.mobile_number.type(user.mobile_number)
-        self.date_of_birth.type.click()
-        self.birth_month.click().element(by.text(calendar.month_name[user.birth_month])).click()
-        self.birth_year.click().element(by.text(str(user.birth_year))).click()
-        self.birth_day.click().element(by.text(str(user.birth_day))).click()
+        self.fill_a_date_of_birth(user)
         self.subject.click().type(user.subject).press_enter()
-        self.hobbies.element(by.text(user.hobbies)).click()
+        self.hobbies.element_by(have.text(user.hobbies)).click()
         self.picture.send_keys(resourсe.path(user.picture))
         self.address.type(user.address)
-        self.state.type(user.state).press_enter()
-        self.city.type(user.city).press_enter()
+        self.fill_state(user.state)
+        self.fill_city(user.city)
         self.submit_button.should(be.visible).click()
+
+    def fill_a_date_of_birth(self, user):
+        browser.element('#dateOfBirthInput').click()
+        browser.element('.react-datepicker__month-select').click().type(user.date_of_birth.strftime('%B')).press_enter()
+        browser.element('.react-datepicker__year-select').click().type(user.date_of_birth.year).click()
+        browser.element(f'.react-datepicker__day--0{user.date_of_birth.strftime("%d")}').click()
+
+    def fill_state(self, value):
+        browser.element('#state').click()
+        browser.element('#react-select-3-input').should(be.blank).type(value).press_enter()
+
+
+    def fill_city(self, value):
+        browser.element('#city').click()
+        browser.all('[id^="react-select"][id*=option]').element_by(have.exact_text(value)).click()
+
 
     def submit_registration(self, user: User):
         browser.element('[id="example-modal-sizes-title-lg"]').should(have.text('Thanks for submitting the form'))
@@ -51,9 +57,11 @@ class RegistrationPage:
         browser.element('[class="modal-body"]').should(have.text(f'Student Email {user.email}'))
         browser.element('[class="modal-body"]').should(have.text(f'Gender {user.sex}'))
         browser.element('[class="modal-body"]').should(have.text(f'Mobile {user.mobile_number}'))
-        browser.element('[class="modal-body"]').should(have.text(f'Date of Birth {user.full_date_of_birth()}'))
+        browser.element('[class="modal-body"]').should(have.text(f'Date of Birth {user.date_of_birth}'))
         browser.element('[class="modal-body"]').should(have.text(f'Subjects {user.subject}'))
         browser.element('[class="modal-body"]').should(have.text(f'Hobbies {user.hobbies}'))
-        browser.element('[class="modal-body"]').should(have.text(f'Hobbies {user.picture}'))
+        browser.element('[class="modal-body"]').should(have.text(f'Picture {user.picture}'))
         browser.element('[class="modal-body"]').should(have.text(f'Address {user.address}'))
         browser.element('[class="modal-body"]').should(have.text(f'State and City {user.state} {user.city}'))
+
+        # self.birth_day = browser.element('.react-datepicker__day--0').click()
