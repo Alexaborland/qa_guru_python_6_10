@@ -57,11 +57,12 @@ class RegistrationPage:
         browser.element('[class="modal-body"]').should(have.text(f'Student Email {user.email}'))
         browser.element('[class="modal-body"]').should(have.text(f'Gender {user.sex}'))
         browser.element('[class="modal-body"]').should(have.text(f'Mobile {user.mobile_number}'))
-        browser.element('[class="modal-body"]').should(have.text(f'Date of Birth {user.date_of_birth}'))
+        browser.element('[class="modal-body"]').should(have.text('Date of Birth {0} {1},{2}'.format(
+            user.date_of_birth.strftime("%d"), user.date_of_birth.strftime("%B"), user.date_of_birth.strftime("%Y"))))
         browser.element('[class="modal-body"]').should(have.text(f'Subjects {user.subject}'))
         browser.element('[class="modal-body"]').should(have.text(f'Hobbies {user.hobbies}'))
         browser.element('[class="modal-body"]').should(have.text(f'Picture {user.picture}'))
         browser.element('[class="modal-body"]').should(have.text(f'Address {user.address}'))
         browser.element('[class="modal-body"]').should(have.text(f'State and City {user.state} {user.city}'))
 
-        # self.birth_day = browser.element('.react-datepicker__day--0').click()
+

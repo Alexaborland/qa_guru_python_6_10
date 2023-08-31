@@ -25,7 +25,7 @@ Alexandra = User(
     email='borland3711@gmail.com',
     sex='Female',
     mobile_number='9992131512',
-    date_of_birth=datetime.date(year=1998, month=6, day=15),
+    date_of_birth=datetime.date(day=15, month=6, year=1998),
     subject='Maths',
     hobbies='Music',
     picture='img.png',
